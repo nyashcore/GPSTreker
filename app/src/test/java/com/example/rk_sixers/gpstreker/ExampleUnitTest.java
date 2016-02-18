@@ -1,4 +1,4 @@
-package com.example.rk_sixers.gpstreker;
+package com.example.rksixers.gpstreker;
 
 import org.junit.Test;
 
