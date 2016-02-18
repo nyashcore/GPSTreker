@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GPSTreker</string>
+    <string name="login_button_name">Login</string>
 </resources>
