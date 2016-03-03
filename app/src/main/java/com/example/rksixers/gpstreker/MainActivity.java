@@ -1,83 +1,100 @@
 package com.example.rksixers.gpstreker;
 
-import android.app.SearchManager;
-import android.content.res.Configuration;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import fragments.PlanetFragment;
 
 public class MainActivity extends AppCompatActivity {
-    String[] planetTiles;
-    private ListView mDrawerListView;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
 
-    private CharSequence mTitle;
-    private CharSequence mDrawerTitle;
+    private DrawerLayout myDrawerLayout;
+    private ListView myDrawerList;
+    private ActionBarDrawerToggle myDrawerToggle;
+
+    // navigation drawer title
+    private CharSequence myDrawerTitle;
+    // used to store app title
+    private CharSequence myTitle;
+
+    private String[] viewsNames;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.rksixers.gpstreker.R.layout.activity_main);
-        setTitle("DrawerLayout");
+        setContentView(R.layout.activity_main);
 
-        mTitle = mDrawerTitle = getTitle();
+        myTitle =  getTitle();
+        myDrawerTitle = getResources().getString(R.string.menu);
 
-        planetTiles = getResources().getStringArray(R.array.planets_array);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerListView = (ListView) findViewById(R.id.left_drawer);
+        // load slide menu items
+        viewsNames = getResources().getStringArray(R.array.views_array);
+        myDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        myDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, planetTiles));
-        mDrawerListView.setOnItemClickListener(new DrawerItemClickListener());
+        myDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, viewsNames));
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        // enabling action bar app icon and behaving it as toggle button
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, null, R.string.drawer_open, R.string.drawer_close) {
+        myDrawerToggle = new ActionBarDrawerToggle(this, myDrawerLayout,
+                R.string.open_menu,
+                R.string.close_menu
+        ) {
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(myTitle);
+                // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(myDrawerTitle);
+                // calling onPrepareOptionsMenu() to hide action bar icons
                 invalidateOptionsMenu();
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        myDrawerLayout.setDrawerListener(myDrawerToggle);
 
-        if (savedInstanceState == null) {
-            selectItem(0);
-        }
+        myDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+        public void onItemClick(
+                AdapterView<?> parent, View view, int position, long id
+        ) {
+            // display view for selected nav drawer item
+            displayView(position);
         }
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(mTitle);
-        } else {
-            setTitle(mTitle);
+    private void displayView(int position) {
+        // update the main content by replacing fragments
+        Fragment fragment = null;
+        switch (position) {
+            case 0:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(this, ContactsActivity.class));
+                break;
+            default:
+                break;
         }
+            myDrawerList.setItemChecked(position, true);
+            myDrawerList.setSelection(position);
+            myDrawerLayout.closeDrawer(myDrawerList);
     }
 
     @Override
@@ -87,56 +104,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerListView);
-        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        // toggle nav drawer on selecting action bar app icon/title
+        if (myDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        switch(item.getItemId()) {
-            case R.id.action_websearch:
-                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle());
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-                }
+        // Handle action bar actions click
+        switch (item.getItemId()) {
+            case R.id.action_settings:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    /**
+     * Called when invalidateOptionsMenu() is triggered
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // if navigation drawer is opened, hide the action items
+        boolean drawerOpen = myDrawerLayout.isDrawerOpen(myDrawerList);
+        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        myTitle = title;
+        getSupportActionBar().setTitle(myTitle);
+    }
+
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        myDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    private void selectItem(int position) {
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-        mDrawerListView.setItemChecked(position, true);
-        setTitle(planetTiles[position]);
-        mDrawerLayout.closeDrawer(mDrawerListView);
+        // Pass any configuration change to the drawer toggls
+        myDrawerToggle.onConfigurationChanged(newConfig);
     }
 }
