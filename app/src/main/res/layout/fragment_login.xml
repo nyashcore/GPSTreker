@@ -59,7 +59,6 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/register_button_name"
-            android:onClick="loginButtonClick"
             android:textSize="16sp" />
 
     </LinearLayout>
