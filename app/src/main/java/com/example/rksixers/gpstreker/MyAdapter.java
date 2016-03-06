@@ -1,11 +1,13 @@
 package com.example.rksixers.gpstreker;
 
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by said on 06.03.16.
@@ -57,13 +59,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Holderid = 0;                                                // Setting holder id = 0 as the object being populated are of type header view
             }
         }
-
-
     }
 
 
 
-    MyAdapter(String Titles[],int Icons[],String Name,String Email, int Profile){ // MyAdapter Constructor with titles and icons parameter
+    public MyAdapter(String Titles[],int Icons[],String Name,String Email, int Profile){ // MyAdapter Constructor with titles and icons parameter
         // titles, icons, name, email, profile pic are passed from the main activity as we
         mNavTitles = Titles;                //have seen earlier
         mIcons = Icons;
@@ -129,7 +129,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return mNavTitles.length+1; // the number of items in the list will be +1 the titles including the header view.
     }
 
-
     // Witht the following method we check what type of view is being passed
     @Override
     public int getItemViewType(int position) {
@@ -142,5 +141,4 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private boolean isPositionHeader(int position) {
         return position == 0;
     }
-
 }

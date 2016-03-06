@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,14 +44,12 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
-
-
-
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
 
         mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
-        mAdapter = new MyAdapter(TITLES,ICONS,NAME,EMAIL,PROFILE);       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
+        mAdapter = new MyAdapter(TITLES,ICONS,NAME,EMAIL,PROFILE);
+        // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
         // And passing the titles,icons,header view name, header view email,
         // and header view profile picture
 
@@ -80,8 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         }; // Drawer Toggle Object Made
-        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        Drawer.addDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(MainActivity.this, TITLES[position], Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 
     @Override
