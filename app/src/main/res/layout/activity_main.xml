@@ -27,7 +27,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:background="#ffffff"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:choiceMode="singleChoice"
+        android:listSelector="@drawable/list_selector">
     </android.support.v7.widget.RecyclerView>
 
 </android.support.v4.widget.DrawerLayout>
