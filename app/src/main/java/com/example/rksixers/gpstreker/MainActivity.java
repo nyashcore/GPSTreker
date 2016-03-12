@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.ViewHolder.ClickListener {
@@ -55,14 +56,31 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ViewHol
 
     @Override
     public void onItemClicked(int position) {
-        Fragment fragment = new LoginFragment();
+        Fragment fragment = null;
+
+        switch (position) {
+            case 3:
+                fragment = new LoginFragment();
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            android.app.FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            Drawer.closeDrawer(mRecyclerView);
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Фрагмент еще не существует", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    public void onSignUpClick(View view) {
+        Fragment fragment = new SignupFragment();
 
         android.app.FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        Drawer.closeDrawer(mRecyclerView);
-    }
-
-    private void toggleSelection(int position) {
-
     }
 }
