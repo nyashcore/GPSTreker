@@ -1,6 +1,7 @@
-package com.example.rksixers.gpstreker;
+package com.example.rksixers.gpstreker.views;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.rksixers.gpstreker.utils.MyAdapter;
+import com.example.rksixers.gpstreker.R;
 
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.ViewHolder.ClickListener {
@@ -60,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ViewHol
 
         switch (position) {
             case 3:
-                fragment = new LoginFragment();
                 break;
             default:
                 break;

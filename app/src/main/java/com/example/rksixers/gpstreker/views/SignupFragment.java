@@ -1,4 +1,4 @@
-package com.example.rksixers.gpstreker;
+package com.example.rksixers.gpstreker.views;
 
 import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.rksixers.gpstreker.R;
 
 public class SignupFragment extends Fragment {
 

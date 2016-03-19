@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">GPSTreker</string>
-    <string name="login_button_name">Login</string>
-    <string name="input_login">Username</string>
+    <string name="login_button_name">Далее</string>
     <string name="input_password">Password</string>
     <string name="register_button_name">No account yet? Create one</string>
     <string name="logo">Logo</string>
     <string name="input_email">Email</string>
-    <string name="input_phone">Phone</string>
+    <string name="input_phone">Введите номер телефона</string>
     <string name="signup_button_name">Create Account</string>
     <string name="action_settings">Settings</string>
     <string-array name="views_array">
@@ -19,5 +18,7 @@
     <string name="close_menu">Close</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
+    <string name="app_version">Version 1.0</string>
+    <string name="welcome_text">Добро пожаловать в GPS Treker!</string>
 
 </resources>

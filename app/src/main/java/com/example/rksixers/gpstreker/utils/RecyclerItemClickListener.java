@@ -1,4 +1,4 @@
-package com.example.rksixers.gpstreker;
+package com.example.rksixers.gpstreker.utils;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
