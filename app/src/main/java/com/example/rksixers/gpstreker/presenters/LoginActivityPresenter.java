@@ -6,12 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rksixers.gpstreker.views.LoginActivity;
 import com.example.rksixers.gpstreker.views.VerifityActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
+import com.octo.android.robospice.request.simple.SimpleTextRequest;
 
 import org.w3c.dom.Text;
 
@@ -30,21 +36,21 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class LoginActivityPresenter {
     LoginActivity activity;
-    VerifityTask verifitytask;
     EditText phoneEditText;
+    private SpiceManager spiceManager;
     public static final String API_KEY = "8b2389bd";
     public static final String API_SECRET = "fa36ba6ff8ec5928";
     public static final String SMS_FROM = "GPS_Treker";
     Intent intent;
 
-    public LoginActivityPresenter(LoginActivity activity) {
+    public LoginActivityPresenter(LoginActivity activity, SpiceManager spiceManager) {
         this.activity = activity;
+        this.spiceManager = spiceManager;
     }
 
     public void onSignInClick(View view) {
         phoneEditText = (EditText) view;
 
-        verifitytask = new VerifityTask();
         String url = "https://api.nexmo.com/verify/json" +
                 "?api_key=" +
                 API_KEY +
@@ -54,60 +60,33 @@ public class LoginActivityPresenter {
                 ((EditText) view).getText().toString() +
                 "&brand=" +
                 SMS_FROM;
-        verifitytask.execute(url);
+        sendRequest(url, spiceManager);
     }
 
-    class VerifityTask extends AsyncTask<String, Void, JsonObject> {
+    private void sendRequest(String url, SpiceManager spiceManager) {
+        SimpleTextRequest request = new SimpleTextRequest(url);
+
+        spiceManager.execute(request, "jsonGPSTreker", DurationInMillis.ONE_SECOND, new GPSTrekerApiJsonRequestListener());
+    }
+
+    public final class GPSTrekerApiJsonRequestListener implements RequestListener<String> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        public void onRequestFailure(SpiceException spiceException) {
+            //TODO
+            Log.i("Presenter", "Request failed");
         }
 
         @Override
-        protected JsonObject doInBackground(String... urls) {
-            HttpsURLConnection connection = null;
+        public void onRequestSuccess(String s) {
+            Log.i("Presenter", "Request success: " + s);
+            JsonObject jsonObject;
 
             try {
-                URL url = new URL(urls[0]);
-
-                connection = (HttpsURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
-                int status = connection.getResponseCode();
-                StringBuilder stringBuilder = new StringBuilder();
-
-                try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(
-                            connection.getInputStream()
-                    ));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        stringBuilder.append(line);
-                    }
-                    reader.close();
-                } catch (IOException e) {
-                    return null;
-                }
-                JsonObject jsonObject;
-
-                try {
-                    jsonObject  = new Gson().fromJson(stringBuilder.toString(), JsonObject.class);
-                } catch (JsonSyntaxException e) {
-                    return null;
-                }
-                return jsonObject;
-            } catch (IOException e) {
-                e.printStackTrace();
+                jsonObject  = new Gson().fromJson(s, JsonObject.class);
+            } catch (JsonSyntaxException e) {
+                //TODO
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JsonObject result) {
-            super.onPostExecute(result);
-
-            activity.openVerifityActivity(result.get("request_id").getAsString());
         }
     }
 }

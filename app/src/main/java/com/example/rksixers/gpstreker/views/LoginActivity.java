@@ -11,18 +11,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rksixers.gpstreker.R;
+import com.example.rksixers.gpstreker.network.GPSTrekerService;
 import com.example.rksixers.gpstreker.presenters.LoginActivityPresenter;
+import com.octo.android.robospice.SpiceManager;
 
 public class LoginActivity extends AppCompatActivity {
     LoginActivityPresenter presenter;
     EditText phoneEditText;
+    protected SpiceManager spiceManager = new SpiceManager(GPSTrekerService.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        spiceManager.start(this);
 
-        presenter = new LoginActivityPresenter(this);
+        presenter = new LoginActivityPresenter(this, spiceManager);
         phoneEditText = (EditText) findViewById(R.id.input_phone);
     }
 

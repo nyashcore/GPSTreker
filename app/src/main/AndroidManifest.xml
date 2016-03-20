@@ -19,9 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.MainActivity"></activity>
+        <activity android:name=".views.MainActivity"/>
         <activity android:name=".views.LoginActivity" />
-        <activity android:name=".views.VerifityActivity"></activity>
+        <activity android:name=".views.VerifityActivity"/>
+        <service
+            android:name=".network.GPSTrekerService"
+            android:exported="false" />
     </application>
+
 
 </manifest>
