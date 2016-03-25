@@ -9,14 +9,15 @@ import android.content.SharedPreferences;
 public class SessionManager {
 
     public void setPreferences(Context context, String key, String value) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("Androidwarriors", Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences("UserPref", Context.MODE_PRIVATE).edit();
         editor.putString(key, value);
         editor.apply();
     }
 
     public  String getPreferences(Context context, String key) {
-        SharedPreferences prefs = context.getSharedPreferences("Androidwarriors",	Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("UserPref",	Context.MODE_PRIVATE);
+        String value = prefs.getString(key, "default");
 
-        return prefs.getString(key, "");
+        return value;
     }
 }

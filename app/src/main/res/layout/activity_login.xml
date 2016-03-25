@@ -10,12 +10,12 @@
         android:orientation="vertical"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:paddingTop="66dp"
-        android:gravity="center">
+        android:paddingTop="66dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Начните работу с GPS Treker!"/>
         <ImageView
             android:layout_width="wrap_content"
@@ -25,23 +25,12 @@
             android:contentDescription="@string/logo"
             android:src="@drawable/logo" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:hint="@string/input_phone" />
-        </android.support.design.widget.TextInputLayout>
-
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:drawableLeft="@drawable/vkontakte"
             android:background="@color/colorAccent"
             android:onClick="onSignInClick"
             android:text="@string/login_button_name" />

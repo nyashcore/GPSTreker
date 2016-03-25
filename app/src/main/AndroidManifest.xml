@@ -11,21 +11,25 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".app.App"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.SplashActivity">
+        <activity
+            android:name=".views.SplashActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.MainActivity"/>
+        <activity android:name=".views.MainActivity" />
         <activity android:name=".views.LoginActivity" />
-        <activity android:name=".views.VerifityActivity"/>
+
         <service
             android:name=".network.GPSTrekerService"
             android:exported="false" />
-    </application>
 
+        <activity android:name=".views.OriginalSettingsActivity"/>
+    </application>
 
 </manifest>

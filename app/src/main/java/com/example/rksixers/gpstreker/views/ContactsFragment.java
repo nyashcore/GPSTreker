@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.example.rksixers.gpstreker.R;
 
 public class ContactsFragment extends Fragment {
+
     String[] numbers_text = new String[]{"one", "two", "three", "four"};
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

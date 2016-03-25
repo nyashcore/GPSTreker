@@ -1,5 +1,6 @@
 package com.example.rksixers.gpstreker.utils;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,35 +17,31 @@ public class MyAdapter extends SelectableAdapter<MyAdapter.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
-
     private ViewHolder.ClickListener clickListener;
-
     private String mNavTitles[];
     private int mIcons[];
     private String name;
-    private int profile;
-    private String email;
+    private Bitmap profile;
 
-    public MyAdapter(ViewHolder.ClickListener listener, String Titles[],int Icons[],String Name,String Email, int Profile) {
-        clickListener = listener;
-        mNavTitles = Titles;
-        mIcons = Icons;
-        name = Name;
-        email = Email;
-        profile = Profile;
+    public MyAdapter(ViewHolder.ClickListener listener, String Titles[], int Icons[], String name, Bitmap profile) {
+        this.clickListener = listener;
+        this.mNavTitles = Titles;
+        this.mIcons = Icons;
+        this.name = name;
+        this.profile = profile;
     }
 
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row,parent,false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row, parent, false);
 
-            return new ViewHolder(clickListener, v,viewType);
+            return new ViewHolder(clickListener, v, viewType);
         } else if (viewType == TYPE_HEADER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.header,parent,false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false);
 
-            return new ViewHolder(clickListener, v,viewType);
+            return new ViewHolder(clickListener, v, viewType);
         }
 
         return null;
@@ -52,23 +49,18 @@ public class MyAdapter extends SelectableAdapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
-        if(holder.Holderid ==1) {
+        if (holder.holderid == 1) {
             holder.textView.setText(mNavTitles[position - 1]);
-            holder.imageView.setImageResource(mIcons[position -1]);
+            holder.imageView.setImageResource(mIcons[position - 1]);
         } else {
-            holder.profile.setImageResource(profile);
-            holder.Name.setText(name);
-            holder.email.setText(email);
+            holder.profile.setImageBitmap(profile);
+            holder.name.setText(name);
         }
     }
 
     @Override
     public int getItemCount() {
-        return mNavTitles.length+1;
-    }
-
-    public String getItem(int position) {
-        return mNavTitles[position];
+        return mNavTitles.length + 1;
     }
 
     @Override
@@ -84,12 +76,13 @@ public class MyAdapter extends SelectableAdapter<MyAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        int Holderid;
+
+        int holderid;
         private ClickListener clickListener;
         TextView textView;
         ImageView imageView;
         ImageView profile;
-        TextView Name;
+        TextView name;
         TextView email;
 
         public ViewHolder(ClickListener clickListener, View itemView, int ViewType) {
@@ -99,13 +92,13 @@ public class MyAdapter extends SelectableAdapter<MyAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
             if (ViewType == TYPE_ITEM) {
                 textView = (TextView) itemView.findViewById(R.id.rowText);
-                imageView = (ImageView) itemView.findViewById(R.id.rowIcon);
-                Holderid = 1;
+                imageView = (ImageView) itemView.findViewById(R.id.row_icon);
+                holderid = 1;
             } else {
-                Name = (TextView) itemView.findViewById(R.id.name);
+                name = (TextView) itemView.findViewById(R.id.name);
                 email = (TextView) itemView.findViewById(R.id.email);
-                profile = (ImageView) itemView.findViewById(R.id.circleView);
-                Holderid = 0;
+                profile = (ImageView) itemView.findViewById(R.id.circle__image_view);
+                holderid = 0;
             }
         }
 

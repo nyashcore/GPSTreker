@@ -10,6 +10,7 @@ import java.util.List;
  * Created by said on 10.03.16.
  */
 public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+
     private static final String TAG = SelectableAdapter.class.getSimpleName();
     private SparseBooleanArray selectedItems;
 
