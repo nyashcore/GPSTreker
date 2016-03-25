@@ -58,6 +58,7 @@ public class OriginalSettingsActivity extends AppCompatActivity {
         if (editText.getText().toString().isEmpty()) {
             Toast.makeText(OriginalSettingsActivity.this, "Введите имя", Toast.LENGTH_SHORT).show();
         } else {
+            sessionManager.setPreferences(OriginalSettingsActivity.this, "Status", "1");
             sessionManager.setPreferences(OriginalSettingsActivity.this, "Image", BitMapToString(bitmap));
             sessionManager.setPreferences(OriginalSettingsActivity.this, "Name", editText.getText().toString());
             startActivity(new Intent(OriginalSettingsActivity.this, MainActivity.class));

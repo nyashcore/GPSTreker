@@ -83,7 +83,6 @@ public class MyAdapter extends SelectableAdapter<MyAdapter.ViewHolder> {
         ImageView imageView;
         ImageView profile;
         TextView name;
-        TextView email;
 
         public ViewHolder(ClickListener clickListener, View itemView, int ViewType) {
             super(itemView);
@@ -96,7 +95,6 @@ public class MyAdapter extends SelectableAdapter<MyAdapter.ViewHolder> {
                 holderid = 1;
             } else {
                 name = (TextView) itemView.findViewById(R.id.name);
-                email = (TextView) itemView.findViewById(R.id.email);
                 profile = (ImageView) itemView.findViewById(R.id.circle__image_view);
                 holderid = 0;
             }
