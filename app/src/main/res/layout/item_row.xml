@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rowIcon"
+        android:id="@+id/row_icon"
         android:paddingLeft="16dp"
         android:src="@drawable/ic_launcher"/>
 
